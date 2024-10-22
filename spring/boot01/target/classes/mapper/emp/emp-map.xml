@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.emp.emp-map">
+	<!-- 전체조회 -->
+	<select id="selectAllList" resultType="EmpVO">
+	SELECT employee_id
+        , last_name
+        , first_name
+        , email
+        , phone_number
+        , hire_date
+        , job_id
+        , salary
+        , commission_pct
+        , manager_id
+        , department_id
+	FROM    employees
+	<!--달러는 검색조건기반으로 처리 시 편한 방식이다. WHERE  ${keyword} LIKE '%'|| #{jobId} ||'%' -->
+	<!-- 연결 연산자 없이 편하게 문자에 자연스레 합쳐져서 들어감 	============>	'%${jobId}%'  (값사용시)홑따옴표가 안붙음을 유의-->
+	ORDER BY employee_id
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="selectInfo" parameterType="EmpVO" resultType="EmpVO">
+	SELECT employee_id
+        , last_name
+        , first_name
+        , email
+        , phone_number
+        , hire_date
+        , job_id
+        , salary
+        , commission_pct
+        , manager_id
+        , department_id
+	FROM    employees
+	WHERE employee_id = #{employeeId}
+	</select>
+	
+	<!-- 등록 --> <!-- if문 else없음을 유의 -->
+	<insert id="insertInfo" parameterType="EmpVO">
+	INSERT INTO employees
+			(
+				employee_id
+				, last_name
+				, email
+				, job_id
+				, hire_date
+				<if test="salary > 0">
+				, salary
+				</if>
+				)
+			VALUES (
+				empoloyees.seq.NEXTVAL
+				, #{lastName}
+				, #{email}
+				<choose>
+					<when test="hireDate != null">
+						, #{hireDate}
+					</when>
+					<otherwise>
+						, sysdate
+					</otherwise>
+				</choose>
+				, #{jobId}
+				, #{hireDate}
+				<if test="salary >  0"> 
+				, #{salary}
+				</if>
+				)
+	</insert>
+	
+	<!-- 수정 --> <!-- @Param 사용시 다음과 같이 플레이스홀더에 값을 작성 -->
+	<update id="updateInfo">
+	UPDATE employees
+	SET
+		last_name = #{emp.lastName}
+		, email = #{emp.email}
+		, job_id = #{emp.jobId}
+		<if test="emp.salary > 0">
+		, salary = #{emp.salary}
+		</if>
+		WHERE employee_id = #{id}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteInfo" parameterType="int">
+	DELETE FROm employees
+	WHERE employee_id = #{eid}
+	</delete>
+</mapper>

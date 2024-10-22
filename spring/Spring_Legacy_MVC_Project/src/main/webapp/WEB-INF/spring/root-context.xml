@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 1.히카리, 2.데이터소스, 3.마이바티스 순서는 지켜서 작성해줘야함. -->
+	<!-- datasource connection pool -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	  <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+	  <property name="jdbcUrl"    value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+	  <property name="username"   value="hr" />
+	  <property name="password"   value="hr" />
+	</bean>
+	
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	  <constructor-arg ref="hikariConfig" />
+	</bean>
+	
+	<!-- mybatis  SqlSessionFactory -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+	  <property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!--   마이바티스가 실행하는 매퍼를 검색, mapper scan -->
+	<mybatis-spring:scan base-package="com.yedam.app.**.mapper" />
+</beans>
