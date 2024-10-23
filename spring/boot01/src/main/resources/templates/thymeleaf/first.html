@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"> <!-- xmlns : namespace를 추가할때 사용하는 명령어 -->
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<div>
+		<h1>타임리프 테스트</h1>
+		<th:block th:each="num : ${#numbers.sequence(1,5)}"> <!-- 타임리프가 가진 유일한 태그 block, 브라우저인식 못하고 타임리프가 혼자 인식함 / each는 보통 block과 함께 사용 -->
+			<p th:if="${ num % 2 == 0}" th:text="${num}"></p>
+		</th:block>
+	</div>
+	
+</body>
+</html>
