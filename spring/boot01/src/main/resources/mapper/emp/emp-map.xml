@@ -44,14 +44,14 @@
 				employee_id
 				, last_name
 				, email
-				, job_id
 				, hire_date
+				, job_id
 				<if test="salary > 0">
 				, salary
 				</if>
 				)
 			VALUES (
-				empoloyees.seq.NEXTVAL
+				employees_seq.NEXTVAL
 				, #{lastName}
 				, #{email}
 				<choose>
@@ -63,7 +63,6 @@
 					</otherwise>
 				</choose>
 				, #{jobId}
-				, #{hireDate}
 				<if test="salary >  0"> 
 				, #{salary}
 				</if>

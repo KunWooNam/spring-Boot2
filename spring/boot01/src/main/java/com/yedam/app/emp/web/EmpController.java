@@ -36,6 +36,7 @@ public class EmpController {
 		// => 페이지에 전달할 데이터 담기
 		model.addAttribute("emps", list);
 		return "emp/list"; //데이터를 출력할 페이지
+		//classpath:/templates/emp/list.html
 	}
 	
 	//단건조회 : GET => QueryString(RequestParam) + 객체 -> 커맨드객체방식으로 처리 (service에서 객체를 요구하기때문에) 
@@ -98,8 +99,8 @@ public class EmpController {
 	
 	//삭제 : GET => QueryString + 단일값 -> @RequestParam (필수는아니나 사용자의입력값이 기능상 큰 영향을 줄 경우 @RequestParam을 사용해 제약을걸어야한다.)
 	@GetMapping("empDelete")
-	public String empDelete(Integer employeeId) {
-		empService.empDelete(employeeId);
+	public String empDelete(Integer empId) {
+		empService.empDelete(empId);
 		return "redirect:empList";
 	}
 	

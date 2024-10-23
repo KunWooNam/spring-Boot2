@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"> <!-- 타임리프쓸때마다 써줘야되는데 이걸 등록할 수 있음 -->
+<head>
+<meta charset="UTF-8">
+<title>사원 정보 조회</title>
+</head>
+<body>
+	<div>
+		<h3>사원 정보 조회</h3>
+		<div>
+			<label for="eid">사원번호</label>
+			<input type="text" id="eid" th:value="${emp.employeeId}" readonly>
+		</div>
+		<div>
+			<label for="ename">이름</label>
+			<input type="text" id="ename" th:value="${emp.lastName}" readonly>
+		</div>
+		<div>
+			<label for="email">이메일</label>
+			<input type="email" id="email" th:value="${emp.email}" readonly>
+		</div>
+		<div>
+			<label for="hDate">입사일</label>
+			<input type="date" id="hdate" th:value="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}" readonly>
+		</div>
+		<div>
+			<label for="job">업무</label>
+			<input type="text" id="job" th:value="${emp.jobId}" readonly>
+		</div>
+		<div>
+			<label for="sal">급여</label>
+			<input type="text" id="sal" th:value="${emp.salary}" readonly>
+		</div>
+		
+		<div>
+			<button type="button" th:onclick="|location.href='@{/empUpdate(employeeId=${emp.employeeId},lastName=${emp.lastName})}'|"> 수정</button> <!-- 홑따옴표안 전체가 링크표현식기반으로 작성되어야함 괄호안은 별도의 달러표현식이 사용될 수 있는 공간이라고 인식함.(해석대상) -->
+			<button type="button" th:onclick="|location.href='@{/empList}'|">목록</button> <!-- 온클릭값 처리 경로만 타임리프로처리 물음표는 자동생성해줌-->
+			<button type="button" th:onclick="|location.href='@{empDelete(empId=${emp.employeeId})}'|">삭제</button>
+		</div>
+	</div>
+</body>
+</html>
