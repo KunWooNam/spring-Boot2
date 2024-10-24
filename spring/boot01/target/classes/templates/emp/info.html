@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/"> <!-- 타임리프쓸때마다 써줘야되는데 이걸 등록할 수 있음 -->
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="Content" > <!-- 타임리프쓸때마다 써줘야되는데 이걸 등록할 수 있음 -->
 <head>
 <meta charset="UTF-8">
 <title>사원 정보 조회</title>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <!-- 타임리프쓸때마다 써줘야되는데 이걸 등록할 수 있음 -->
+<head>
+<meta charset="UTF-8">
+<title></title>
+<!-- setting -->
+<!--/* 
+	~{} : fragment 표현식 => ~{html경로 :: fragment이름} / fragment 표현식을 통해 검색하는 것은 viewResolver를 거치므로 viewResolver가 가진 정보는 제외시킨다.
+	classpath:/templates/common/configs/default_config.html => ctxPathConfig
+	common/configs/default_config.html => ctxPathConfig
+*/-->
+<div th:replace="~{common/configs/default_config :: ctxPathConfig}"></div> <!-- replace는 기존의 태그를 대체시킨다. 기존태그삭제 -->
+<th:block th:replace="~{common/configs/default_config :: BootstrapConfig}"></th:block>
+</head>
+<body>
+	<div> <!-- classpath:/templates/common/fragments/emp_header.html -->
+		<header th:insert="~{common/fragments/emp_header :: EmpHeader}"></header> <!-- insert는 기존태그를 그대로 두고, 하위태그로 삽입시킨다. -->
+		<main>
+			<th:block layout:fragment="Content"></th:block>
+		</main>
+	</div>
+</body>
+</html>

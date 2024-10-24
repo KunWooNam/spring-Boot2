@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<div xmlns:th="https://www.thymeleaf.org" th:fragment="EmpHeader"> <!-- 타임리프쓸때마다 써줘야되는데 이걸 등록할 수 있음 -->
+	<ul class="nav nav-underline">
+	  <li class="nav-item">
+	    <a class="nav-link" th:href="@{/empList}">전체조회</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" th:href="@{/empInsert}">등록</a>
+	  </li>
+	</ul>
+</div>
