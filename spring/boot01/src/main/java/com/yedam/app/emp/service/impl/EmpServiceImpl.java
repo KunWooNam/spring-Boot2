@@ -31,7 +31,9 @@ public class EmpServiceImpl implements EmpService{
 
 	@Override
 	public int empInsert(EmpVO empVO) {
-		return empMapper.insertInfo(empVO);
+		//return empMapper.insertInfo(empVO);
+		int result = empMapper.insertInfo(empVO);
+		return result == 1 ? empVO.getEmployeeId() : -1;
 	}
 
 	@Override

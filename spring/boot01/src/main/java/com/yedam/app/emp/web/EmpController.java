@@ -59,16 +59,17 @@ public class EmpController {
 				   //=> QueryString + 객체 => 커맨드객체방식으로 처리
 	@PostMapping("empInsert")
 	public String empInsertProcess(EmpVO empVO) {
-		int result = empService.empInsert(empVO);
+		
+		int eid = empService.empInsert(empVO);
 		String url = null;
-		if(result > 0) {
+		if( eid > -1) {
 			//정상적으로 등록
-			url = "redirect:empList";
+			url = "redirect:empInfo?employeeId=" + eid;
 		} else {
 			//등록되지 않은 경우
 			url = "redirect:empInsert";
 		}
-		return null;
+		return url;
 	}
 	
 	//수정(페이지) : GET, 단건조회와 비슷함 경로와 메서드이름만 수정해줌
@@ -83,19 +84,19 @@ public class EmpController {
 	
 	//수정(처리) : POST, AJAX로 보내는 데이터형식 2가지를 알아본다.
 	// 1)AJAX => QueryString
-	@PostMapping("empUpdate")
+	//@PostMapping("empUpdate")
 	@ResponseBody //AJAX처리를 위한 필수적인 어노테이션, AJAX -> Model 객체 사용하지않음
 	public Map<String, Object> empUpdateAJAXQueryString(EmpVO empVO){
 		return empService.empUpdate(empVO); //서비스로부터 받은 ModelAndView를 그대로 반환
 	}
 	// 2)AJAX => JSON (JSON은 @RequestBody 어노테이션을 요구한다.)
-	/* 정상 실행을 위한 1개 주석처리
+	// 정상 실행을 위한 1개 주석처리
 	@PostMapping("empUpdate")
 	@ResponseBody //AJAX처리를 위한 필수적인 어노테이션, AJAX -> Model 객체 사용하지않음
 	public Map<String, Object> empUpdateAJAXJSON(@RequestBody EmpVO empVO){ //보내는 데이터가 달라지는 것이 아닌, 표현방식만 달라짐
 		return empService.empUpdate(empVO); //서비스로부터 받은 ModelAndView를 그대로 반환
 	}
-	*/
+	
 	
 	//삭제 : GET => QueryString + 단일값 -> @RequestParam (필수는아니나 사용자의입력값이 기능상 큰 영향을 줄 경우 @RequestParam을 사용해 제약을걸어야한다.)
 	@GetMapping("empDelete")

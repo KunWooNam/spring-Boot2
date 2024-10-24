@@ -21,7 +21,7 @@
 		</div>
 		<div>
 			<label for="hDate">입사일</label>
-			<input type="date" id="hdate" th:value="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}" readonly>
+			<input type="date" id="hDate" th:value="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}" readonly>
 		</div>
 		<div>
 			<label for="job">업무</label>
@@ -34,7 +34,7 @@
 		
 		<div>
 			<button type="button" th:onclick="|location.href='@{/empUpdate(employeeId=${emp.employeeId},lastName=${emp.lastName})}'|"> 수정</button> <!-- 홑따옴표안 전체가 링크표현식기반으로 작성되어야함 괄호안은 별도의 달러표현식이 사용될 수 있는 공간이라고 인식함.(해석대상) -->
-			<button type="button" th:onclick="|location.href='@{/empList}'|">목록</button> <!-- 온클릭값 처리 경로만 타임리프로처리 물음표는 자동생성해줌-->
+			<button type="button" th:onclick="|location.href='@{/empList}'|">목록</button> <!-- 온클릭값 처리 경로만 타임리프로처리 물음표는 자동생성해줌, (타임리프+JS) => 타임의 리터럴방식을 사용-->
 			<button type="button" th:onclick="|location.href='@{empDelete(empId=${emp.employeeId})}'|">삭제</button>
 		</div>
 	</div>

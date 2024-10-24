@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"> <!-- 타임리프쓸때마다 써줘야되는데 이걸 등록할 수 있음 -->
+<head>
+<meta charset="UTF-8">
+<title>사원 정보 조회</title>
+</head>
+<body>
+	<form name="updateForm" th:object="${emp}">
+		<h3>사원 정보 수정</h3>
+		<div>
+			<label for="eid">사원번호</label>
+			<!-- <input type="text" id="eid" th:value="${emp.employeeId}" readonly> -->
+			<input type="text" id="eid" th:field="*{employeeId}" readonly>  <!-- th:field="*{employeeId}" => Model객체에 담긴 VO객체의 필드값을 읽는다. id,name,value를 자동으로 완성시켜줌-->
+		</div>
+		<div>
+			<label for="ename">이름</label>
+			<input type="text" id="ename" th:field="*{lastName}" >
+		</div>
+		<div>
+			<label for="email">이메일</label>
+			<input type="email" id="email" th:field="*{email}" >
+		</div>
+		<div>
+			<label for="hDate">입사일</label>
+			<!-- <input type="date" id="hDate" th:value="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}" > -->
+			<input type="date" id="hDate" th:field="*{hireDate}" > <!-- 그냥쓰면 형식이 안맞아서 input태그의 date type에 사용을 못함. / VO클래스에서@DateTimeFormat(pattern="yyyy-MM-dd") 사용하면 해결됨(일반적으로 이방식을 사용) -->
+		</div>
+		<div>
+			<label for="job">업무</label>
+			<input type="text" id="job" th:field="*{jobId}" >
+		</div>
+		<div>
+			<label for="sal">급여</label>
+			<input type="text" id="sal" th:field="*{salary}" >
+		</div>
+		
+		<div>
+			<button type="button" id="updateBtn">수정</button>
+		</div>
+	</form>
+	
+	<script>
+		document.getElementById('updateBtn').addEventListener('click', updateEmpAJAX);
+		
+		function updateEmpAJAX(event){
+			// 1) 보낼 데이터 결정
+			let info = getEmpVO();
+			
+			// 2) AJAX
+			// 2-1) QueryString => URLSearchParams
+			/*
+			fetch('empUpdate' ,{
+				method : 'POST',
+				body : new URLSearchParams(info) //이클립스가 쿼리스트링으로 변환처리해줌 searchParam이란 ?뒤의것을 의미
+			})
+			.then(result=>result.json())
+			.then(result=>{
+				console.log(result);
+			})
+			.catch(err => console.log(err));
+			*/
+			
+			// 2-2) JSON => @RequestBody
+			fetch('empUpdate' ,{
+				method : 'POST',
+				//추가
+				headers : {
+					'Content-type' : 'application/json'
+				},
+				body : JSON.stringify(info) //변경
+			})
+			.then(result=>result.json())
+			.then(result=>{
+				console.log(result);
+			})
+			.catch(err => console.log(err));
+		}
+		
+		// 2-1방식
+		
+		function getEmpVO(){
+			// FormData => content-type : multipart/form-date
+			// FormData : <form/> 태그를 기준으로 내부에 존재하는 모든 입력태그 일괄처리
+			let formData = new FormData(updateForm); //Ajax를 위해 만들어진 기능
+			//Ex )formData.get('employeeId') => name속성값을 기준으로 get()
+			
+			let formObj = {};
+			formData.forEach((value, name)=>{
+				formObj[name] = value;
+			})
+			return formObj;
+		}
+	</script>
+</body>
+</html>

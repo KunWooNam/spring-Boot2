@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"> <!-- 타임리프쓸때마다 써줘야되는데 이걸 등록할 수 있음 -->
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<form name="insertForm" th:action="@{/empInsert}" method="post"> <!-- form은 name속성값을 주는게 일반적, action값에 타임리프 링크표현식써야 서버에 정상적으로 접근가능 -->
+		<h3>사원 정보 등록</h3>
+		
+		<div>
+			<label for="ename">이름</label>
+			<input type="text" id="ename" name="lastName">
+		</div>
+		<div>
+			<label for="email">이메일</label>
+			<input type="email" id="email" name="email">
+		</div>
+		<div> 
+			<label for="hDate">입사일</label>
+			<input type="text" id="hDate" name="hireDate" placeholder = "yyyy/MM/dd">
+		</div>
+		<div>
+			<label for="job">업무</label>
+			<input type="text" id="job" name="jobId">
+		</div>
+		<div>
+			<label for="sal">급여</label>
+			<input type="number" step="0.01" min="1" id="sal" name="salary">
+		</div>
+		
+		<div>
+			<button type="submit">등록</button>
+		</div>
+	</form>
+	
+	<script>
+	//docuemnt.querySelector('form[name=inserForm]');	
+	insertForm.addEventListener('submit', insertEmp);
+	
+	function insertEmp(event){
+		event.preventDefault(); //해당 이벤트 일시정지(submit을 정지시킴)
+		
+		// 이름
+		let nameTag = insertForm.querySelector('input[name="lastName"]');
+		if(nameTag.value == ''){
+		 	alert('이름이 입력되지 않았습니다.');
+		 	nameTag.focus();
+		 	return;
+		}
+		// 이메일
+		let emailTag = insertForm.querySelector('input[name="email"]');
+		if(emailTag.value == ''){
+		 	alert('이메일이 입력되지 않았습니다.');
+		 	emailTag.focus();
+		 	return;
+		}
+		// 업무
+		let jobTag = insertForm.querySelector('input[name="jobId"]');
+		if(jobTag.value == ''){
+		 	alert('업무가이 입력되지 않았습니다.');
+		 	jobTag.focus();
+		 	return;
+		}
+		
+		insertForm.submit();
+	}
+	//단순 form태그로 검색하는 것은 지양할 것. 한 페이지내에서 form태그는 여러개 사용되는 경우가 많다. 정확히 검색할 것
+	</script>
+</body>
+</html>

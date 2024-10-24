@@ -38,7 +38,7 @@
 	</select>
 	
 	<!-- 등록 --> <!-- if문 else없음을 유의 -->
-	<insert id="insertInfo" parameterType="EmpVO">
+	<insert id="insertInfoSeq" parameterType="EmpVO">
 	INSERT INTO employees
 			(
 				employee_id
@@ -52,6 +52,42 @@
 				)
 			VALUES (
 				employees_seq.NEXTVAL
+				, #{lastName}
+				, #{email}
+				<choose>
+					<when test="hireDate != null">
+						, #{hireDate}
+					</when>
+					<otherwise>
+						, sysdate
+					</otherwise>
+				</choose>
+				, #{jobId}
+				<if test="salary >  0"> 
+				, #{salary}
+				</if>
+				)
+	</insert>
+	
+	<!-- 등록 --> <!-- selectkey를 활용한 insert -->
+	<insert id="insertInfo" parameterType="EmpVO">
+	<selectKey keyProperty="employeeId" resultType="Integer" order="BEFORE"> <!-- primary key 생성을 위한 selectKey, 결과값은 부모의 parameterType에 담긴다. 무조건 단일값이어야 한다. keyProperty : 필드명, order:부모sql문의 전,후에 실행할건지를 결정 ,보통 인설트 앞,업뎃 뒤에서 사용 insert,update에서만 사용가능 -->
+	SELECT NVL(MAX(employee_id), 100 )+ 1
+	FROM employees
+	</selectKey>
+	INSERT INTO employees
+			(
+				employee_id
+				, last_name
+				, email
+				, hire_date
+				, job_id
+				<if test="salary > 0">
+				, salary
+				</if>
+				)
+			VALUES (
+				#{employeeId} <!-- 변경부분 -->
 				, #{lastName}
 				, #{email}
 				<choose>
